@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class JobListingApplicationController {
@@ -37,13 +39,29 @@ public class JobListingApplicationController {
     @GetMapping("/job-listings/{jobListingId}/applications")
     public String viewJobApplications(@PathVariable Long jobListingId, Model model, Authentication auth) {
         JobListing jobListing = jobListingService.findJobListingById(jobListingId);
+
         if (jobListing == null) {
             return "redirect:/employer-home";
         }
-        List<Application> applications = applicationService.findApplicationsByJobListingId(jobListingId);
+
+        List<Application> allApplications = applicationService.findApplicationsByJobListingId(jobListingId);
+        List<Application> viewableApplications = allApplications.stream()
+                .filter(app -> !app.getApplicationStatus().equals("Reject"))
+                .toList();
+
+        Map<String, Long> statusCounts = allApplications.stream()
+                .collect(Collectors.groupingBy(Application::getApplicationStatus, Collectors.counting()));
+
+        // Ensure all statuses are initialized in the map
+        String[] statuses = {"Applied", "Accept", "Reject", "Shortlist"};
+        for (String status : statuses) {
+            statusCounts.putIfAbsent(status, 0L);
+        }
+
         model.addAttribute("jobListing", jobListing);
-        model.addAttribute("jobApplications", applications);
-        model.addAttribute("applicationsCount", applications.size());
+        model.addAttribute("jobApplications", viewableApplications);
+        model.addAttribute("applicationsCount", viewableApplications.size());
+        model.addAttribute("statusCounts", statusCounts);
         return "job-listing-applications";
     }
 
@@ -64,16 +82,9 @@ public class JobListingApplicationController {
             currentApplication = applicationService.findApplicationById(applicationId);
         }
 
-        if ("Reject".equals(status)) {
-            applicationService.delete(currentApplication);
-            emailService.sendEmail(currentApplication, status, feedbackText);
-            redirectAttributes.addFlashAttribute("message", "Application rejected successfully!");
-        } else {
-            applicationService.updateStatus(currentApplication, status);
-            Application updatedApplication = applicationService.findApplicationById(applicationId);
-            emailService.sendEmail(updatedApplication, status, feedbackText);
-            redirectAttributes.addFlashAttribute("message", "Application Status updated successfully!");
-        }
+        applicationService.updateStatus(currentApplication, status);
+        emailService.sendEmail(currentApplication, status, feedbackText);
+        redirectAttributes.addFlashAttribute("message", "Application status updated successfully!");
 
         return "redirect:/job-listings/" + jobListingId + "/applications";
     }

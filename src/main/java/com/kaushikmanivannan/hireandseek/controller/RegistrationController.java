@@ -73,6 +73,7 @@ public class RegistrationController {
 
         // Create user account and store in the database
         userService.save(registrationDTO);
+        redirectAttributes.addFlashAttribute("successMessage", "User registered successfully!");
 
         // Place user in the session for later use
         session.setAttribute("user", registrationDTO);
