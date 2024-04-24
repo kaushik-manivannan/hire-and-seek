@@ -32,16 +32,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public List<Application> getApplicationsByJobListing(Long jobListingId) {
-        return null;
-    }
-
-    @Override
-    public void updateApplicationStatus(Long applicationId, String status) {
-
-    }
-
-    @Override
     public Application findApplicationById(Long id) {
         return applicationDAO.findApplicationById(id);
     }

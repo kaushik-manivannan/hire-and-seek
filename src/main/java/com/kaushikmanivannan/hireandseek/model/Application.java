@@ -36,6 +36,9 @@ public class Application {
     @Column(name = "resume", nullable = false, columnDefinition = "MEDIUMBLOB")
     private byte[] resume;
 
+    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+    private Feedback feedback;
+
     public Application() {
     }
 
@@ -110,6 +113,14 @@ public class Application {
         this.resume = resume;
     }
 
+    public Feedback getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(Feedback feedback) {
+        this.feedback = feedback;
+    }
+
     @Override
     public String toString() {
         return "Application{" +
@@ -121,6 +132,7 @@ public class Application {
                 ", portfolioURL='" + portfolioURL + '\'' +
                 ", workAuthorization=" + workAuthorization +
                 ", resume=" + Arrays.toString(resume) +
+                ", feedback=" + feedback +
                 '}';
     }
 }

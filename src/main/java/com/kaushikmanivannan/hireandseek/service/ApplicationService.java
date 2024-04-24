@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface ApplicationService {
     void save(Application application);
-    List<Application> getApplicationsByJobListing(Long jobListingId);
-    void updateApplicationStatus(Long applicationId, String status);
     Application findApplicationById(Long id);
     List<Application> findApplicationsByCandidate(Candidate candidate);
     List<Application> findApplicationsByJobListingId(Long jobListingId);

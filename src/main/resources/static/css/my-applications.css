@@ -17,6 +17,10 @@ th, td {
     border-color: #dee2e6;
 }
 
+tbody tr {
+    vertical-align: middle;
+}
+
 tbody tr:hover {
     background-color: #f8f9fa;
 }

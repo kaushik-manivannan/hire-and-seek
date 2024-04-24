@@ -1,6 +1,7 @@
 package com.kaushikmanivannan.hireandseek.service;
 
 import com.kaushikmanivannan.hireandseek.model.Application;
+import com.kaushikmanivannan.hireandseek.model.Feedback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -23,12 +24,14 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void sendEmail(
             Application application,
-            String status
+            String status,
+            String feedbackText
     ) {
         String toEmail = application.getCandidate().getUser().getEmail();
         String applicantName = application.getCandidate().getUser().getFirstName() + " " + application.getCandidate().getUser().getLastName();
         String jobTitle = application.getJobListing().getTitle();
         String companyName = application.getJobListing().getCompanyName();
+
         String subject = String.format(
                 "Application Status Update - %s at %s",
                 jobTitle, companyName
@@ -36,9 +39,10 @@ public class EmailServiceImpl implements EmailService {
         String content = String.format(
                 "Dear %s,\n\n" +
                         "The status of your application for the position of %s at %s has been updated to: %sed.\n\n" +
+                        "Feedback: %s \n\n" +
                         "Best regards,\n" +
                         "Hire & Seek Team",
-                applicantName, jobTitle, companyName, status
+                applicantName, jobTitle, companyName, status, feedbackText
         );
 
         SimpleMailMessage message = new SimpleMailMessage();

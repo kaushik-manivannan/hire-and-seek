@@ -2,10 +2,7 @@ package com.kaushikmanivannan.hireandseek.controller;
 
 import com.kaushikmanivannan.hireandseek.model.Application;
 import com.kaushikmanivannan.hireandseek.model.JobListing;
-import com.kaushikmanivannan.hireandseek.service.ApplicationService;
-import com.kaushikmanivannan.hireandseek.service.EmailService;
-import com.kaushikmanivannan.hireandseek.service.EmployerService;
-import com.kaushikmanivannan.hireandseek.service.JobListingService;
+import com.kaushikmanivannan.hireandseek.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -23,12 +20,18 @@ public class JobListingApplicationController {
     private final JobListingService jobListingService;
     private final ApplicationService applicationService;
     private final EmailService emailService;
+    private final FeedbackService feedbackService;
 
     @Autowired
-    public JobListingApplicationController(JobListingService jobListingService, ApplicationService applicationService, EmailService emailService, EmployerService employerService) {
+    public JobListingApplicationController(JobListingService jobListingService,
+                                           ApplicationService applicationService,
+                                           EmailService emailService,
+                                           EmployerService employerService,
+                                           FeedbackService feedbackService) {
         this.jobListingService = jobListingService;
         this.applicationService = applicationService;
         this.emailService = emailService;
+        this.feedbackService = feedbackService;
     }
 
     @GetMapping("/job-listings/{jobListingId}/applications")
@@ -48,6 +51,7 @@ public class JobListingApplicationController {
     public String updateApplicationStatus(@PathVariable Long applicationId,
                                           @PathVariable Long jobListingId,
                                           @RequestParam("status") String status,
+                                          @RequestParam("feedback") String feedbackText,
                                           Model model,
                                           RedirectAttributes redirectAttributes,
                                           Authentication auth) {
@@ -55,14 +59,19 @@ public class JobListingApplicationController {
         Application currentApplication = applicationService.findApplicationById(applicationId);
         model.addAttribute("currentApplication", currentApplication);
 
+        if (feedbackText != null && !feedbackText.trim().isEmpty()) {
+            feedbackService.saveFeedback(currentApplication, feedbackText);
+            currentApplication = applicationService.findApplicationById(applicationId);
+        }
+
         if ("Reject".equals(status)) {
-            emailService.sendEmail(currentApplication, status);
             applicationService.delete(currentApplication);
-            redirectAttributes.addFlashAttribute("message", "Application deleted successfully!");
+            emailService.sendEmail(currentApplication, status, feedbackText);
+            redirectAttributes.addFlashAttribute("message", "Application rejected successfully!");
         } else {
             applicationService.updateStatus(currentApplication, status);
             Application updatedApplication = applicationService.findApplicationById(applicationId);
-            emailService.sendEmail(updatedApplication, status);
+            emailService.sendEmail(updatedApplication, status, feedbackText);
             redirectAttributes.addFlashAttribute("message", "Application Status updated successfully!");
         }
 

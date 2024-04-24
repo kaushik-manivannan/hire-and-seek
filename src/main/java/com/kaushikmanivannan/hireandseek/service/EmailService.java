@@ -6,6 +6,7 @@ public interface EmailService {
 
     void sendEmail(
             Application application,
-            String status
+            String status,
+            String feedbackText
     );
 }

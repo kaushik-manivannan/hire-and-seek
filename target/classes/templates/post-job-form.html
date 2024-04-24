@@ -8,7 +8,6 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" th:href="@{/css/post-job-form.css}">
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDErcv6ZFrh_jyssQO8CpULZo5G6b0nwNw&libraries=places"></script>
-  <script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
@@ -68,9 +67,6 @@
     var autocomplete = new google.maps.places.Autocomplete(input);
   }
   google.maps.event.addDomListener(window, 'load', initializeGoogleMapsPlaces);
-</script>
-<script>
-  CKEDITOR.replace('description');
 </script>
 </body>
 </html>
