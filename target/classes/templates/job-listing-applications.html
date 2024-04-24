@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Applications</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/job-listing-applications.css}" />
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container mt-5">
+    <!-- Go Back Button -->
+    <div th:replace="fragments/navigation :: goBack"></div>
+
+    <!-- Conditionally Displaying the Flash Message -->
+    <div th:if="${message}" class="alert alert-success fade-out" role="alert">
+        <span th:text="${message}"></span>
+    </div>
+
+    <!-- Job Title and Company Name -->
+    <h2 class="text-center mt-4 mb-3" th:text="${jobListing.title + ' at ' + jobListing.companyName}">Job Title at Company Name</h2>
+    <h4 class="text-center text-muted" th:text="${'Total Applications: ' + applicationsCount}">Total Applications: 0</h4>
+
+    <div th:if="${jobApplications.isEmpty()}" class="alert alert-info text-center mt-4">
+        No applications have been submitted for this job yet.
+    </div>
+    <!-- Application Cards -->
+    <div th:each="app : ${jobApplications}" class="card applicant-card mb-3">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8 applicant-details">
+                    <p><strong>Name:</strong> <span th:text="${app.candidate.user.firstName + ' ' + app.candidate.user.lastName}">Applicant Name</span></p>
+                    <p><strong>Email:</strong> <span th:text="${app.candidate.user.email}">Email</span></p>
+                    <p><strong>Phone:</strong> <span th:text="${app.candidate.user.phone}">Phone</span></p>
+                    <p><strong>LinkedIn:</strong> <a th:href="${app.linkedInURL}" th:text="${app.linkedInURL}" target="_blank">LinkedIn</a></p>
+                    <p><strong>Portfolio:</strong> <a th:href="${app.portfolioURL}" th:text="${app.portfolioURL}" target="_blank">Portfolio</a></p>
+                    <p><strong>Work Authorization:</strong> <span th:text="${app.workAuthorization ? 'Yes' : 'No'}">Yes/No</span></p>
+                    <p><strong>Resume:</strong> <a th:href="@{'/downloadResume/' + ${app.id}}" target="_blank">Download</a></p>
+                </div>
+                <div class="col-md-4 applicant-actions text-md-end mt-3 mt-md-0">
+                    <div class="d-flex justify-content-end">
+                        <form th:action="@{'/job-listings/' + ${app.jobListing.id} + '/applications/updateStatus/' + ${app.id}}" method="post" class="me-2">
+                            <input type="hidden" name="status" value="Accept">
+                            <button type="submit" class="btn btn-success btn-sm">Accept</button>
+                        </form>
+                        <form th:action="@{'/job-listings/' + ${app.jobListing.id} + '/applications/updateStatus/' + ${app.id}}" method="post" class="me-2">
+                            <input type="hidden" name="status" value="Shortlist">
+                            <button type="submit" class="btn btn-warning btn-sm">Shortlist</button>
+                        </form>
+                        <form th:action="@{'/job-listings/' + ${app.jobListing.id} + '/applications/updateStatus/' + ${app.id}}" method="post">
+                            <input type="hidden" name="status" value="Reject">
+                            <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                        </form>
+                    </div>
+                    <p class="status-text mt-2"><strong>Status:</strong> <span th:text="${app.applicationStatus == 'Applied' ? 'Applied': app.applicationStatus + 'ed'}">Status</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

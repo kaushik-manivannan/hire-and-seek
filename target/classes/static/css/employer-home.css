@@ -1,0 +1,107 @@
+.intro-title {
+    margin-bottom: 2rem;
+}
+
+.job-card {
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.job-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.job-card .card-body {
+    padding: 1.5rem;
+}
+
+.job-card .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.job-card .company-name {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.job-card .location, .job-card .date {
+    font-size: 1rem;
+    color: #777;
+    margin-bottom: 0;
+}
+
+.job-card .card-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-apply {
+    font-weight: bold;
+}
+
+.fade-out {
+    opacity: 1;
+    visibility: visible;
+    animation: fadeOut 3s ease-in-out 3s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        display: none;
+    }
+}
+
+.col-12 {
+    display: flex;
+}
+
+.search-btn {
+    margin-right: 0.5rem;
+}
+
+.post-job-button-container .btn-floating {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: auto;
+    height: auto;
+    padding: 20px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.post-job-button-container .btn-floating .plus-icon {
+    font-size: 24px;
+}
+
+.post-job-button-container .btn-floating .post-job-text {
+    display: block;
+    margin-top: 5px;
+}
+
+.post-job-button-container .btn-floating:hover {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    transform: none;
+}
+
+@media (max-width: 576px) {
+    .post-job-button-container .btn-floating {
+        bottom: 0.5rem;
+        right: 0.5rem;
+    }
+}
+

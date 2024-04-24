@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Applications</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/my-applications.css}" />
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container">
+    <h1>My Applications</h1>
+    <div th:if="${successMessage}" class="alert alert-success fade-out" role="alert">
+        <span th:text="${successMessage}"></span>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Job Title</th>
+            <th>Company Name</th>
+            <th>Status</th>
+            <th>Resume</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="app : ${applications}">
+            <td th:text="${app.jobListing.title}"></td>
+            <td th:text="${app.jobListing.companyName}"></td>
+            <td th:text="${app.applicationStatus == 'Applied' ? 'Applied' : app.applicationStatus + 'ed'}"></td>
+            <td>
+                <!-- Using a link styled as a button for viewing the resume -->
+                <a th:href="@{'/downloadResume/' + ${app.id}}" class="btn btn-primary btn-sm">View</a>
+            </td>
+            <td>
+                <!-- Conditional rendering for withdraw link -->
+                <form th:action="@{'/withdraw-application/' + ${app.id}}" method="post">
+                    <button th:if="${app.applicationStatus == 'Applied'}"
+                       class="btn btn-danger btn-sm">
+                        Withdraw
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

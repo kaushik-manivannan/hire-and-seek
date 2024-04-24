@@ -1,0 +1,50 @@
+.container {
+    padding-top: 2rem;
+}
+
+.table {
+    margin-top: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+    background-color: #007bff;
+    color: #fff;
+}
+
+th, td {
+    padding: 1rem;
+    border-color: #dee2e6;
+}
+
+tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.btn-view {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.btn-view:hover {
+    text-decoration: underline;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.fade-out {
+    opacity: 1;
+    visibility: visible;
+    animation: fadeOut 3s ease-in-out 3s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        display: none;
+    }
+}

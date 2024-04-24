@@ -1,0 +1,28 @@
+.card {
+    border-radius: 0.85rem;
+    border: none;
+}
+
+.card-title {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.card-text {
+    line-height: 1.6;
+}
+
+.job-description {
+    white-space: pre-line;
+    padding: 0 50px;
+}
+
+.btn-primary {
+    width: 200px;
+    font-weight: bold;
+}
+
+.btn-custom {
+    padding: .375rem .75rem;
+    font-size: 1.2rem;
+}

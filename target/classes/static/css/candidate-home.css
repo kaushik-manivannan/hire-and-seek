@@ -1,0 +1,60 @@
+.intro-title {
+    margin-bottom: 2rem;
+}
+
+.job-card {
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.job-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.job-card .card-body {
+    padding: 1.5rem;
+}
+
+.job-card .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.job-card .company-name {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.job-card .location, .job-card .date {
+    font-size: 1rem;
+    color: #777;
+    margin-bottom: 0;
+}
+
+.job-card .card-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    text-align: right;
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-apply {
+    font-weight: bold;
+}
+
+.col-12 {
+    display: flex;
+}
+
+.search-btn {
+    margin-right: 0.5rem;
+}
