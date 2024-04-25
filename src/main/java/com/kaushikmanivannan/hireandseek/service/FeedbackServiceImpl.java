@@ -18,11 +18,6 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public Feedback findFeedbackByApplication(Application application) {
-        return feedbackDAO.findFeedbackByApplication(application);
-    }
-
-    @Override
     @Transactional
     public void saveFeedback(Application application, String feedbackText) {
         Feedback feedback = feedbackDAO.findFeedbackByApplication(application);

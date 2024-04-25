@@ -1,6 +1,15 @@
 package com.kaushikmanivannan.hireandseek.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.CascadeType;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -38,15 +47,6 @@ public class JobListing {
 
     @Column(name = "date_posted", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime datePosted = LocalDateTime.now();
-
-    public void addApplication(Application newApplication){
-        if(applications == null){
-            applications = new ArrayList<>();
-        }
-
-        applications.add(newApplication);
-        newApplication.setJobListing(this);
-    }
 
     public JobListing() {
     }

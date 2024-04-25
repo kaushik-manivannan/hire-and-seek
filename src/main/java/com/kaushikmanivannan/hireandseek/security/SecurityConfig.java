@@ -59,6 +59,8 @@ public class SecurityConfig {
                                 .requestMatchers("/register").permitAll()
                                 .requestMatchers("/processRegistrationForm").permitAll()
                                 .requestMatchers("/home").hasAnyRole("CANDIDATE", "EMPLOYER")
+                                .requestMatchers("/post-new-job", "/job-listings/**").hasRole("EMPLOYER")
+                                .requestMatchers("/apply/**", "/my-applications/**").hasRole("CANDIDATE")
                                 .requestMatchers("/images/**").permitAll()
                                 .requestMatchers("/css/**").permitAll()
                                 .anyRequest()

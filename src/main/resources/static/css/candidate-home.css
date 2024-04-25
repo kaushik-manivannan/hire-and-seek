@@ -58,3 +58,16 @@
 .search-btn {
     margin-right: 0.5rem;
 }
+
+.fade-out {
+    opacity: 1;
+    visibility: visible;
+    animation: fadeOut 3s ease-in-out 3s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        display: none;
+    }
+}

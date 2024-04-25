@@ -16,4 +16,5 @@ public interface JobListingService {
     void update(JobListing jobListing);
     void delete(JobListing jobListing);
     void createJobListing(JobListingDTO jobListingDTO, Employer employer);
+    JobListing populateJobListingDTO(JobListing jobListing, JobListingDTO jobListingDTO);
 }

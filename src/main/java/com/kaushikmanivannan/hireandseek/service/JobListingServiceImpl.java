@@ -7,7 +7,6 @@ import com.kaushikmanivannan.hireandseek.model.JobListing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -67,5 +66,15 @@ public class JobListingServiceImpl implements JobListingService {
         newJobListing.setEmployer(employer);
         newJobListing.setDatePosted(LocalDateTime.now());
         jobListingDAO.save(newJobListing);
+    }
+
+    @Override
+    public JobListing populateJobListingDTO(JobListing jobListing, JobListingDTO jobListingDTO) {
+        jobListing.setTitle(jobListingDTO.getTitle());
+        jobListing.setDescription(jobListingDTO.getDescription());
+        jobListing.setSalary(jobListingDTO.getSalary());
+        jobListing.setLocation(jobListingDTO.getLocation());
+        jobListing.setCompanyName(jobListingDTO.getCompanyName());
+        return jobListing;
     }
 }

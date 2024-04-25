@@ -38,19 +38,34 @@ public class JobDetailsController {
     public String showJobDetails(@PathVariable Long jobId,
                                  Model model,
                                  Authentication auth) {
+
+        // Fetch job listing using the provided job ID.
         JobListing job = jobListingService.findJobListingById(jobId);
+
+        // Retrieve the current authenticated user's email.
         String email = auth.getName();
         User user = userService.findByEmail(email);
+
+        // Check if the authenticated user has a candidate role.
         boolean isCandidate = auth.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CANDIDATE"));
-        if(isCandidate){
+
+        if (isCandidate) {
+            // If user is a candidate, fetch their details and applications.
             Candidate candidate = candidateService.findCandidateByUser(user);
             List<Application> applications = applicationService.findApplicationsByCandidate(candidate);
+
+            // Collect IDs of jobs to which the candidate has applied.
             Set<Long> appliedJobs = applications.stream()
                     .map(application -> application.getJobListing().getId())
                     .collect(Collectors.toSet());
+
+            // Add applied jobs to the model
             model.addAttribute("appliedJobs", appliedJobs);
         }
+
+        // Add the job listing details to the model
         model.addAttribute("job", job);
-        return "job-details";
+
+        return "job-details"; // Return the job details view
     }
 }

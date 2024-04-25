@@ -23,17 +23,25 @@ public class FileDownloadController {
 
     @GetMapping("/downloadResume/{applicationId}")
     public ResponseEntity<ByteArrayResource> downloadResume(@PathVariable Long applicationId) {
+        // Retrieves the application by ID
         Application application = applicationService.findApplicationById(applicationId);
+        // Checks if application is null or if the resume data is missing; returns HTTP 404 Not Found if true
         if (application == null || application.getResume() == null) {
             return ResponseEntity.notFound().build();
         }
 
+        // Creates a new ByteArrayResource from the resume byte array
         ByteArrayResource resource = new ByteArrayResource(application.getResume());
 
+        // Prepares the response entity with proper headers, media type, and content
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + applicationId + "_resume.pdf")
+                // Sets the filename in the content-disposition header
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + "Resume_" + application.getCandidate().getUser().getFirstName() + ".pdf")
+                // Specifies the content type as PDF
                 .contentType(MediaType.APPLICATION_PDF)
+                // Sets the content length
                 .contentLength(application.getResume().length)
+                // Includes the ByteArrayResource in the response body
                 .body(resource);
     }
 }

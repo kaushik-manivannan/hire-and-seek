@@ -48,7 +48,8 @@ public class UserServiceImpl implements UserService {
         newUser.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
         newUser.setRole(UserRole.valueOf(registrationDTO.getRole()));
         newUser.setEnabled(true);
-        userDAO.save(newUser); // Save the user to the User table
+        // Save the user to the User table
+        userDAO.save(newUser);
 
         // Depending on the role, also save to either Candidate or Employer table
         if (newUser.getRole() == UserRole.ROLE_CANDIDATE) {

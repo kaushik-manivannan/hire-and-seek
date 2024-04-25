@@ -1,10 +1,16 @@
 package com.kaushikmanivannan.hireandseek.model;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.CascadeType;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -21,15 +27,6 @@ public class Candidate {
 
     @OneToMany(mappedBy = "candidate", cascade = CascadeType.ALL)
     private List<Application> applications;
-
-    public void addApplication(Application newApplication){
-        if(applications == null){
-            applications = new ArrayList<>();
-        }
-
-        applications.add(newApplication);
-        newApplication.setCandidate(this);
-    }
 
     public Candidate() {
     }

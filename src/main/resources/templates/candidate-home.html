@@ -9,19 +9,27 @@
     <link rel="stylesheet" th:href="@{/css/candidate-home.css}">
 </head>
 <body>
+<!-- Navigation bar fragment -->
 <div th:replace="fragments/navbar :: navbar"></div>
+
+<!-- Container for dashboard content -->
 <div class="container mt-5">
+    <!-- Welcome header that dynamically shows user's name -->
     <h1 class="intro-title">Welcome, <span th:text="${session.user != null ? session.user.getFirstName() + ' ' + session.user.getLastName() : 'Guest'}">Employer Name</span></h1>
+
+    <!-- Success alert for application submission -->
     <div th:if="${applicationSuccess}" class="alert alert-success fade-out" role="alert">
         <span th:text="${applicationSuccess}"></span>
     </div>
-    <!-- Search Form -->
+
+    <!-- Search form for job listings -->
     <div class="row mb-4">
         <div class="col-12">
             <form th:action="@{/home}" method="get" class="d-flex">
                 <input class="form-control me-2" type="search" name="searchPhrase" placeholder="Search for jobs" aria-label="Search">
                 <button class="btn btn-outline-success search-btn" type="submit">Search</button>
             </form>
+            <!-- Reset search filter -->
             <form th:action="@{/home}" method="get">
                 <button class="btn btn-outline-secondary" type="submit">
                     <i class="fas fa-times"></i>
@@ -29,21 +37,32 @@
             </form>
         </div>
     </div>
+
+    <!-- Job listings grid -->
     <div class="row row-cols-1 row-cols-md-3 g-4">
+        <!-- Loop through each job and create a card for it -->
         <div th:each="job : ${jobs}" class="col">
             <div class="card h-100 job-card">
+                <!-- Link to job details -->
                 <a th:href="@{'/job-details/' + ${job.id}}" class="list-group-item list-group-item-action">
                     <div class="card-body">
+                        <!-- Job title -->
                         <h5 class="card-title" th:text="${job.title}">Job Title</h5>
+                        <!-- Company name -->
                         <p class="company-name" th:text="${job.companyName}">Company Name</p>
+                        <!-- Job location -->
                         <p class="location"><small class="text-muted" th:text="${job.location}">Location</small></p>
                     </div>
                 </a>
+                <!-- Card footer with application date and apply/check status -->
                 <div class="card-footer">
+                    <!-- Date job was posted -->
                     <p class="date"><small>Posted: </small><small th:text="${#temporals.format(job.datePosted, 'MMMM dd, yyyy')}"></small></p>
+                    <!-- Indicator if user has already applied -->
                     <div th:if="${appliedJobs.contains(job.id)}" class="text-muted already-applied">
                         Already Applied
                     </div>
+                    <!-- Apply button only shown if user hasn't applied yet -->
                     <a th:if="${!appliedJobs.contains(job.id)}"
                        href="#"
                        class="btn btn-primary float-end"
@@ -53,6 +72,8 @@
         </div>
     </div>
 </div>
+
+<!-- Bootstrap JS for functionality like modals and collapse -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
