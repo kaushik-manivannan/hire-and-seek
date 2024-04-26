@@ -8,15 +8,23 @@ import com.kaushikmanivannan.hireandseek.service.EmployerService;
 import com.kaushikmanivannan.hireandseek.service.JobListingService;
 import com.kaushikmanivannan.hireandseek.service.UserService;
 import jakarta.validation.Valid;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class JobListingController {
@@ -113,5 +121,45 @@ public class JobListingController {
         redirectAttributes.addFlashAttribute("successMessage", "Job Listing Deleted Successfully!");
         // Redirects to the home page after deletion
         return "redirect:/home";
+    }
+
+    @PostMapping("/uploadJobListings")
+    public String uploadFile(@RequestParam("file") MultipartFile file,
+                             RedirectAttributes redirectAttributes) {
+        try (InputStream is = file.getInputStream()) {
+            Workbook workbook = WorkbookFactory.create(is);
+            Sheet sheet = workbook.getSheetAt(0);
+            List<JobListing> jobListings = parseSheet(sheet);
+            jobListingService.saveAll(jobListings);
+            redirectAttributes.addFlashAttribute("successMessage", "Successfully Added Job Listings!");
+            return "redirect:/home";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to upload job listings");
+            return "redirect:/post-new-job";
+        }
+    }
+
+    private List<JobListing> parseSheet(Sheet sheet) {
+        List<JobListing> jobListings = new ArrayList<>();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findByEmail(auth.getName());
+        Employer employer = employerService.findEmployerByUser(user);
+        boolean firstRow = true;
+        for (Row row : sheet) {
+            if (firstRow) {
+                firstRow = false;
+                continue;
+            }
+            JobListing job = new JobListing();
+            job.setTitle(row.getCell(0).getStringCellValue());
+            job.setDescription(row.getCell(1).getStringCellValue());
+            job.setSalary((int)row.getCell(2).getNumericCellValue());
+            job.setLocation(row.getCell(3).getStringCellValue());
+            job.setCompanyName(row.getCell(4).getStringCellValue());
+            job.setEmployer(employer);
+            job.setDatePosted(LocalDateTime.now());
+            jobListings.add(job);
+        }
+        return jobListings;
     }
 }

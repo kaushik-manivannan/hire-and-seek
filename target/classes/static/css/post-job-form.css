@@ -13,6 +13,10 @@
     font-weight: bold;
 }
 
+.container {
+    margin: 20px;
+}
+
 .btn-primary {
     background-color: #0056b3;
     border: none;
@@ -21,13 +25,22 @@
     font-weight: bold;
 }
 
+.post-job-container {
+    width: 90vw;
+    justify-content: space-around;
+}
+
+.post-job-form {
+    flex-grow: 1;
+    width: 50vw;
+}
+
 .btn-primary:hover {
     background-color: #003d82;
 }
 
 .form-control,
 .form-select {
-    padding: 10px 15px;
     border: 1px solid #ced4da;
 }
 

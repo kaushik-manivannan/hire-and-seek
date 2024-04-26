@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface JobListingDAO {
     void save(JobListing jobListing);
+    void saveAll(List<JobListing> jobListings);
     JobListing findJobListingById(Long id);
     List<JobListing> findJobListingsByUserId(Long UserId);
     List<JobListing> findAll();

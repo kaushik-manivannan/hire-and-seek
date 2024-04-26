@@ -74,4 +74,12 @@ public class JobListingDAOImpl implements JobListingDAO {
     public void delete(JobListing jobListing) {
         entityManager.remove(jobListing);
     }
+
+    @Transactional
+    public void saveAll(List<JobListing> jobListings) {
+        for (JobListing jobListing : jobListings) {
+            entityManager.persist(jobListing);
+        }
+        entityManager.flush();
+    }
 }

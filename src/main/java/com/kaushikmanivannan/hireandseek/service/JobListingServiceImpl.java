@@ -77,4 +77,9 @@ public class JobListingServiceImpl implements JobListingService {
         jobListing.setCompanyName(jobListingDTO.getCompanyName());
         return jobListing;
     }
+
+    @Override
+    public void saveAll(List<JobListing> jobListings) {
+        jobListingDAO.saveAll(jobListings);
+    }
 }
