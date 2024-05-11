@@ -15,6 +15,11 @@ The primary objective of Hire & Seek is to create a seamless interface for candi
 - **Responsive Design**: A user-friendly interface that adjusts to different screen sizes, ensuring accessibility across devices.
 - **Security**: Secure authentication and authorization mechanisms to protect sensitive data.
 
+## Screenshots
+<img width="1497" alt="Screenshot 2024-05-11 at 11 18 42 AM" src="https://github.com/kaushik-manivannan/hire-and-seek/assets/144855772/98c4eaa6-bbf9-4bac-a2cc-2742b67477ac">
+<img width="1512" alt="Screenshot 2024-05-11 at 11 17 13 AM" src="https://github.com/kaushik-manivannan/hire-and-seek/assets/144855772/5e6bfd72-f680-4be9-943b-bd06ec0bba69">
+<img width="1512" alt="Screenshot 2024-05-11 at 11 19 28 AM" src="https://github.com/kaushik-manivannan/hire-and-seek/assets/144855772/271b7b67-642c-4031-83e1-25719f3d4ecd">
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
